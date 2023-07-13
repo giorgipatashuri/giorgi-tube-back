@@ -13,11 +13,11 @@ model User {
   upldatedAt       DateTime       @updatedAt @map("updated_at")
   email            String         @unique()
   password         String
-  name             String
+  name             String?
   isVerified       Boolean        @default(false) @map("is_verified")
-  subscribersCount Int            @map("subscribers_count")
-  description      String
-  avatarPath       String         @map("avatar_path")
+  subscribersCount Int            @default(0) @map("subscribers_count")
+  description      String?
+  avatarPath       String?        @map("avatar_path")
   videos           Video[]
   subscribers      Subscription[] @relation("UserSubscriptions")
   subscriptions    Subscription[] @relation("UserSubscribers")
