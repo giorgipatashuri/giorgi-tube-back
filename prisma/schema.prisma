@@ -9,52 +9,52 @@ datasource db {
 
 model User {
   id               Int            @id @default(autoincrement())
+  avatarPath       String?        @map("avatar_path")
   createdAt        DateTime       @default(now()) @map("created_at")
-  upldatedAt       DateTime       @updatedAt @map("updated_at")
-  email            String         @unique()
-  password         String
+  description      String?
+  email            String         @unique
   name             String?
+  password         String
+  upldatedAt       DateTime       @updatedAt @map("updated_at")
   isVerified       Boolean        @default(false) @map("is_verified")
   subscribersCount Int            @default(0) @map("subscribers_count")
-  description      String?
-  avatarPath       String?        @map("avatar_path")
+  Comments         Comments[]
+  subscriptions    Subscription[] @relation("subscriptions")
+  subscribers      Subscription[] @relation("subscribers")
   videos           Video[]
-  subscribers      Subscription[] @relation("UserSubscriptions")
-  subscriptions    Subscription[] @relation("UserSubscribers")
-
-  Comments Comments[]
 }
 
 model Video {
   id            Int        @id @default(autoincrement())
   createdAt     DateTime   @default(now()) @map("created_at")
-  upldatedAt    DateTime   @updatedAt @map("updated_at")
-  User          User?      @relation(fields: [userId], references: [id])
-  userId        Int?       @map("user_id")
-  name          String
-  isPublic      Boolean    @map("is_public")
-  views         Int
-  likes         Int
-  duration      Int
   desscription  String
-  videoPath     String     @map("video_path")
+  duration      Int
+  likes         Int
+  name          String
+  upldatedAt    DateTime   @updatedAt @map("updated_at")
+  views         Int
+  isPublic      Boolean    @map("is_public")
   thumbnailPath String     @map("thumbnail_path")
+  userId        Int?       @map("user_id")
+  videoPath     String     @map("video_path")
   comments      Comments[]
+  User          User?      @relation(fields: [userId], references: [id])
 }
 
 model Subscription {
-  id          Int  @id @default(autoincrement())
-  fromUser    User @relation("UserSubscriptions", fields: [fromUserId], references: [id])
-  fromUserId  Int  @map("from_user_id")
-  toChannel   User @relation("UserSubscribers", fields: [toChannelId], references: [id])
-  toChannelId Int  @map("to_channel_id")
+  id          Int    @id @default(autoincrement())
+  test        String
+  fromUserId  Int?
+  toChannelId Int?
+  fromUser    User?  @relation("subscriptions", fields: [fromUserId], references: [id])
+  toChannel   User?  @relation("subscribers", fields: [toChannelId], references: [id])
 }
 
 model Comments {
   id      Int    @id @default(autoincrement())
   message String
-  user    User   @relation(fields: [userId], references: [id])
   userId  Int    @map("user_id")
-  Video   Video? @relation(fields: [videoId], references: [id])
   videoId Int?   @map("video_id")
+  user    User   @relation(fields: [userId], references: [id])
+  Video   Video? @relation(fields: [videoId], references: [id])
 }
