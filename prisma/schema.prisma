@@ -42,12 +42,11 @@ model Video {
 }
 
 model Subscription {
-  id          Int    @id @default(autoincrement())
-  test        String
+  id          Int   @id @default(autoincrement())
   fromUserId  Int?
   toChannelId Int?
-  fromUser    User?  @relation("subscriptions", fields: [fromUserId], references: [id])
-  toChannel   User?  @relation("subscribers", fields: [toChannelId], references: [id])
+  fromUser    User? @relation("subscriptions", fields: [fromUserId], references: [id])
+  toChannel   User? @relation("subscribers", fields: [toChannelId], references: [id])
 }
 
 model Comments {
