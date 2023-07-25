@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { verify } from 'argon2'
-import { CreateUserDto } from 'src/user/dto/create-user.dto'
+import { CreateUserDto } from 'src/user/dto/user.dto'
 import { UserService } from 'src/user/user.service'
 import { AuthDto } from './dto/auth.dto'
 
@@ -37,7 +37,7 @@ export class AuthService {
 			token
 		}
 	}
-	private async validateUser(dto: CreateUserDto) {
+	private async validateUser(dto: AuthDto) {
 		const user = await this.userService.findByEmail(dto.email)
 		if (!user) throw new NotFoundException('User not Found')
 		const isValid = await verify(user.password, dto.password)
