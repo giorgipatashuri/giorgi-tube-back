@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { verify } from 'argon2'
-import { CreateUserDto } from 'src/user/dto/user.dto'
+
 import { UserService } from 'src/user/user.service'
 import { AuthDto } from './dto/auth.dto'
 
